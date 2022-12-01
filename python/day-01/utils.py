@@ -19,4 +19,6 @@ def partition_list(str_list):
 
 
 def sum_partitions(partitions):
+    """Sum each list of integers in a list of lists, and return a list of those
+    sums"""
     return [sum(part) for part in partitions]

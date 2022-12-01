@@ -100,3 +100,27 @@ def test_part_1_sample_input():
     result = solve.part_1(calorie_list)
 
     assert result == 24000
+
+
+def test_part_2_sample_input():
+    calorie_list = [
+        "1000",
+        "2000",
+        "3000",
+        "",
+        "4000",
+        "",
+        "5000",
+        "6000",
+        "",
+        "7000",
+        "8000",
+        "9000",
+        "",
+        "10000",
+    ]
+
+    result = solve.part_2(calorie_list)
+
+    assert result == 45000
+
