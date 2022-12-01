@@ -1,2 +1,2 @@
-# adventofcode2021
-Advent of Code puzzles and solutions for 2021: https://adventofcode.com/2021
+# adventofcode2022
+Advent of Code puzzles and solutions for 2022: https://adventofcode.com/2022
