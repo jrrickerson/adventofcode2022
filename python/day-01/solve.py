@@ -2,11 +2,15 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip() for line in open(filename)]
 
 
 def part_1(input_data):
-    pass
+    calories_list = utils.convert_int_list(input_data)
+    parts = utils.partition_list(calories_list)
+    calorie_sums = utils.sum_partitions(parts)
+
+    return max(calorie_sums)
 
 
 def part_2(input_data):
