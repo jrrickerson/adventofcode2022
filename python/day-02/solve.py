@@ -2,11 +2,19 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip() for line in open(filename)]
 
 
 def part_1(input_data):
-    pass
+    opponent_score, player_score = 0, 0
+    opponent, player = utils.tabulate_choices(input_data)
+    opponent_score += opponent
+    player_score += player
+    opponent, player = utils.tabulate_wins(input_data)
+    opponent_score += opponent
+    player_score += player
+
+    return player_score
 
 
 def part_2(input_data):
