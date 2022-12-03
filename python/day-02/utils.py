@@ -18,6 +18,36 @@ WIN_LOSE_DRAW_SCORE = {
     "A Z": (6, 0),  # Opponent win
     "B X": (6, 0),  # Opponent win
     "C Y": (6, 0),  # Opponent win
+    "A A": (3, 3),  # Draw
+    "B B": (3, 3),  # Draw
+    "C C": (3, 3),  # Draw
+    "A B": (0, 6),  # Player win
+    "B C": (0, 6),  # Player win
+    "C A": (0, 6),  # Player win
+    "A C": (6, 0),  # Opponent win
+    "B A": (6, 0),  # Opponent win
+    "C B": (6, 0),  # Opponent win
+}
+
+SHAPE_MAP = {
+    "A": "R",
+    "B": "P",
+    "C": "S",
+    "R": "A",
+    "P": "B",
+    "S": "C",
+}
+
+WINNING_SHAPES = {
+    "R": "S",
+    "S": "P",
+    "P": "R",
+}
+
+LOSING_SHAPES = {
+    "R": "P",
+    "S": "R",
+    "P": "S",
 }
 
 
@@ -51,3 +81,18 @@ def tabulate_wins(rounds):
 
     return opp_score, player_score
 
+
+def generate_rounds(strategies):
+    rounds = []
+    for strat in strategies:
+        opponent, result = strat.split()
+        opp_shape = SHAPE_MAP.get(opponent)
+        if result == "X":
+            player_shape = WINNING_SHAPES.get(opp_shape)
+        elif result == "Y":
+            player_shape = opp_shape
+        else:
+            player_shape = LOSING_SHAPES.get(opp_shape)
+        player = SHAPE_MAP.get(player_shape)
+        rounds.append(f"{opponent} {player}")
+    return rounds

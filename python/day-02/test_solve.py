@@ -117,3 +117,73 @@ def test_part_1_sample_input():
     player_score = solve.part_1(input_data)
 
     assert player_score == 15
+
+
+def test_generate_rounds_empty():
+    strategies = []
+
+    rounds = utils.generate_rounds(strategies)
+
+    assert len(rounds) == 0
+
+def test_generate_rounds_draw():
+    strategies = [
+        "A Y"
+    ]
+    
+    rounds = utils.generate_rounds(strategies)
+
+    assert rounds == ["A A"]
+
+def test_generate_rounds_lose():
+    strategies = [
+        "A X"
+    ]
+    
+    rounds = utils.generate_rounds(strategies)
+
+    assert rounds == ["A C"]
+
+def test_generate_rounds_win():
+    strategies = [
+        "A Z"
+    ]
+    
+    rounds = utils.generate_rounds(strategies)
+
+    assert rounds == ["A B"]
+
+
+def test_generate_rounds_multi():
+    strategies = [
+        "A X",
+        "A X",
+        "B Y",
+        "B Y",
+        "A Y",
+        "A X",
+    ]
+    expected_rounds = [
+        "A C",
+        "A C",
+        "B B",
+        "B B",
+        "A A",
+        "A C",
+    ]
+
+    rounds = utils.generate_rounds(strategies)
+
+    assert rounds == expected_rounds
+
+
+def test_part_2_sample_input():
+    input_data = [
+        "A Y",
+        "B X",
+        "C Z",
+    ]
+
+    player_score = solve.part_2(input_data)
+
+    assert player_score == 12

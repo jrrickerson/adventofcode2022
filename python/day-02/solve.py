@@ -18,7 +18,17 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    rounds = utils.generate_rounds(input_data)
+
+    opponent_score, player_score = 0, 0
+    opponent, player = utils.tabulate_choices(rounds)
+    opponent_score += opponent
+    player_score += player
+    opponent, player = utils.tabulate_wins(rounds)
+    opponent_score += opponent
+    player_score += player
+
+    return player_score
 
 
 def main(input_file):
