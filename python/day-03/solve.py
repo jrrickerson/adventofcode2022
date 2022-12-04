@@ -16,7 +16,14 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    group_size = 3
+    all_priorities = []
+    for idx in range(0, len(input_data), group_size):
+        group = input_data[idx : idx + group_size]
+        badge_letter = utils.intersect_letters(group)
+        priorities = utils.map_priorities(badge_letter)
+        all_priorities += priorities
+    return sum(all_priorities)
 
 
 def main(input_file):

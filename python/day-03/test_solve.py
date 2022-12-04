@@ -112,3 +112,18 @@ def test_part_1_sample_input():
     total_priority = solve.part_1(input_data)
 
     assert total_priority == 157
+
+
+def test_part_2_sample_input():
+    input_data = [
+        "vJrwpWtwJgWrhcsFMMfFFhFp",
+        "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+        "PmmdzqPrVvPwwTWBwg",
+        "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+        "ttgJtRGJQctTZtZT",
+        "CrZsJsPPZsGzwwsLwLmpwMDw",
+    ]
+
+    total_priority = solve.part_2(input_data)
+
+    assert total_priority == 70
