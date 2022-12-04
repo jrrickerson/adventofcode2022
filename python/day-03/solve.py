@@ -2,11 +2,17 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip() for line in open(filename)]
 
 
 def part_1(input_data):
-    pass
+    all_priorities = []
+    for line in input_data:
+        parts = utils.split_into(line, parts=2)
+        common_letters = utils.intersect_letters(parts)
+        priorities = utils.map_priorities(common_letters)
+        all_priorities += priorities
+    return sum(all_priorities)
 
 
 def part_2(input_data):
@@ -27,7 +33,5 @@ def main(input_file):
 
 
 if __name__ == "__main__":
-    print(
-        "Solving Puzzle for Day 3:",
-        "https://adventofcode.com/2022/day/3")
+    print("Solving Puzzle for Day 3:", "https://adventofcode.com/2022/day/3")
     print(main("../puzzles/day-03.input"))
