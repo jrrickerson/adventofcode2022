@@ -2,11 +2,17 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip("\n") for line in open(filename)]
 
 
 def part_1(input_data):
-    pass
+    initial_stacks = utils.read_stack_diagram(input_data)
+    instructions = utils.read_crane_instructions(input_data)
+
+    stacks = utils.operate_crane(initial_stacks, instructions)
+
+    top_crates = [s[-1] for s in stacks]
+    return "".join(top_crates)
 
 
 def part_2(input_data):
@@ -27,7 +33,5 @@ def main(input_file):
 
 
 if __name__ == "__main__":
-    print(
-        "Solving Puzzle for Day 5:",
-        "https://adventofcode.com/2022/day/5")
+    print("Solving Puzzle for Day 5:", "https://adventofcode.com/2022/day/5")
     print(main("../puzzles/day-05.input"))
