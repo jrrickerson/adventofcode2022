@@ -62,22 +62,34 @@ def read_crane_instructions(lines):
     return instructions
 
 
-def operate_crane(stacks, instructions):
+def operate_crane(stacks, instructions, mode="single"):
     """Given a starting state of stacks of crates, and a set of instructions
     to use the crane to manipulate those stacks, perform the crane operations
-    and return the resulting state of the stacks."""
+    and return the resulting state of the stacks.
+    mode parameter allows for:
+        single = Move crates one at a time from src to dest
+        multi = Move all crates in the instruction at once, preserving order"""
 
     for line_num, instruction in enumerate(instructions):
         qty, source, destination = instruction
         # Correct for zero-based list indices
         src_idx = source - 1
         dest_idx = destination - 1
-        for i in range(qty):
-            try:
-                crate = stacks[src_idx].pop()
-                stacks[dest_idx].append(crate)
-            except IndexError:
-                print("Invalid crane instruction!")
-                print("Current Stack state: ", stacks)
+        if mode == "single":
+            for i in range(qty):
+                try:
+                    crate = stacks[src_idx].pop()
+                    stacks[dest_idx].append(crate)
+                except IndexError:
+                    print("Invalid crane instruction!")
+                    print("Current Stack state: ", stacks)
+        elif mode == "multi":
+            crates = [stacks[src_idx].pop() for i in range(qty)]
+            crates.reverse()
+            stacks[dest_idx] += crates
+
+        else:
+            print(f"Invalid mode: {mode}")
+            break
 
     return stacks

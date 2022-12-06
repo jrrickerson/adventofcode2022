@@ -229,3 +229,36 @@ def test_part_1_sample_input():
     result = solve.part_1(input_data)
 
     assert result == "CMZ"
+
+
+def test_operate_crane_multi_mode():
+    instructions = [
+        (1, 1, 3),
+        (2, 2, 1),
+        (3, 1, 3),
+    ]
+    initial_stacks = [["A", "B", "C"], ["D", "E"], ["F"]]
+
+    stacks = utils.operate_crane(initial_stacks, instructions, mode="multi")
+
+    expected_stacks = [["A"], [], ["F", "C", "B", "D", "E"]]
+    assert len(stacks) == len(initial_stacks)
+    assert stacks == expected_stacks
+
+
+def test_part_2_sample_input():
+    input_data = [
+        "    [D]    ",
+        "[N] [C]    ",
+        "[Z] [M] [P]",
+        " 1   2   3 ",
+        "",
+        "move 1 from 2 to 1",
+        "move 3 from 1 to 3",
+        "move 2 from 2 to 1",
+        "move 1 from 1 to 2",
+    ]
+
+    result = solve.part_2(input_data)
+
+    assert result == "MCD"

@@ -16,7 +16,13 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    initial_stacks = utils.read_stack_diagram(input_data)
+    instructions = utils.read_crane_instructions(input_data)
+
+    stacks = utils.operate_crane(initial_stacks, instructions, mode="multi")
+
+    top_crates = [s[-1] for s in stacks]
+    return "".join(top_crates)
 
 
 def main(input_file):
