@@ -86,3 +86,25 @@ def test_part_1_sample_input():
     for data, expected in zip(input_data, expected_results):
         index = solve.part_1([data])
         assert index == expected
+
+
+def test_part_2_sample_input():
+    input_data = [
+        "mjqjpqmgbljsphdztnvjfqwrcgsmlb",
+        "bvwbjplbgvbhsrlpgdmjqwftvncz",
+        "nppdvjthqldpwncqszvftbrmjlhg",
+        "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg",
+        "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw",
+    ]
+
+    expected_results = [
+        19,
+        23,
+        23,
+        29,
+        26,
+    ]
+
+    for data, expected in zip(input_data, expected_results):
+        index = solve.part_2([data])
+        assert index == expected

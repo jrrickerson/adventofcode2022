@@ -11,7 +11,8 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    start = utils.find_set_span(input_data[0], size=14)
+    return start + 14
 
 
 def main(input_file):
