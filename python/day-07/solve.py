@@ -2,11 +2,18 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip() for line in open(filename)]
 
 
 def part_1(input_data):
-    pass
+    dirtree = utils.create_directory_tree(input_data)
+    sizes = {}
+    total = utils.find_directory_sizes(
+        dirtree, dirtree["__name__"], sizes=sizes)
+
+    dirs = [size for dirname, size in sizes.items()
+           if size <= 100000]
+    return sum(dirs)
 
 
 def part_2(input_data):
