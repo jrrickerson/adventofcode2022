@@ -17,7 +17,21 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    dirtree = utils.create_directory_tree(input_data)
+    sizes = {}
+    total_used = utils.find_directory_sizes(
+        dirtree, dirtree["__name__"], sizes=sizes)
+
+    MAX_STORAGE = 70000000
+    TARGET_FREE = 30000000
+
+    current_free = MAX_STORAGE - total_used
+
+    candidate_dirs = {dirname: size for dirname, size in sizes.items()
+        if current_free + size >= TARGET_FREE}
+    to_delete = min(candidate_dirs, key=candidate_dirs.get)
+
+    return candidate_dirs[to_delete]
 
 
 def main(input_file):
