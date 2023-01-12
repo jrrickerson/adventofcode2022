@@ -2,11 +2,33 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip() for line in open(filename) if line.strip()]
 
 
 def part_1(input_data):
-    pass
+    # Generate a grid from the input
+    # For each row, detect visible trees
+    # Add visible trees to set of visible
+    # For each column, detect visible trees
+    # Add visible trees to set of visible
+    # Get the count of the visible set
+    visible_trees = set()
+    tree_grid = utils.generate_grid(input_data)
+    # Add all the outside trees
+
+    # Look at the inner trees by row
+    for i, row in enumerate(tree_grid):
+        visible = utils.find_visible(row)
+        visible_trees |= utils.vectors_from_index_set(visible, row=i)
+
+    # Look at the inner trees by column
+    for i in range(len(tree_grid[0])):
+        col = [row[i] for row in tree_grid]
+        visible = utils.find_visible(col)
+        visible_trees |= utils.vectors_from_index_set(visible, col=i)
+
+
+    return len(visible_trees)
 
 
 def part_2(input_data):
