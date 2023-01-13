@@ -7,13 +7,10 @@ def generate_grid(input_lines):
     return grid
 
 
-def reduce_heights_by_pos(heights, pos=0):
+def reduce_heights_by(heights, value):
     """Given a series of integer values representing heights,
-    reduce all the height values by 1 more than the height
-    value at the position indicated by 'pos'"""
-    reduce_by = heights[pos] + 1
-
-    return [h - reduce_by for h in heights]
+    reduce all the height values by the provided value"""
+    return [h - value for h in heights]
 
 
 def first_visible(heights, reverse=False):
@@ -53,7 +50,8 @@ def find_visible(heights):
     # Check from the left / top
     while from_start is not None:
         visible.add(from_start)
-        start_heights = reduce_heights_by_pos(start_heights, from_start)
+        start_heights = reduce_heights_by(
+            start_heights, start_heights[from_start] + 1)
         from_start = first_visible(start_heights)
 
     # Check from the right / bottom
@@ -61,7 +59,28 @@ def find_visible(heights):
     end_heights = heights
     while from_end is not None:
         visible.add(from_end)
-        end_heights = reduce_heights_by_pos(end_heights, from_end)
+        end_heights = reduce_heights_by(
+            end_heights, end_heights[from_end] + 1)
         from_end = first_visible(end_heights, reverse=True)
 
     return visible
+
+
+def get_scenic_score(heights, index):
+    """Given a sequence of heights and the index of a tree, calculate
+    the scenic score for the tree."""
+    adjusted_heights = reduce_heights_by(heights, heights[index])
+    if index == 0:
+        left = 1
+    else:
+        # Search backward from the tree to get the view distance
+        start = first_visible(adjusted_heights[:index], reverse=True) or 0
+        left = index - start
+    if index == len(heights) - 1:
+        right = 1
+    else:
+        # Search forward from the tree to get the view distance
+        visible = first_visible(adjusted_heights[index+1:])
+        right = (len(adjusted_heights) - 1 - index if visible is None else
+                visible + 1)
+    return left * right

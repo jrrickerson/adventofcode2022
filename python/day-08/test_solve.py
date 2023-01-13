@@ -36,20 +36,20 @@ def test_generate_grid_multi_row():
     ]
 
 
-def test_reduce_heights_by_pos_default():
+def test_reduce_heights_by_zero():
     heights = [0, 2, 3, 2, 1]
 
-    new_heights = utils.reduce_heights_by_pos(heights)
+    new_heights = utils.reduce_heights_by(heights, 0)
+
+    assert new_heights == heights
+
+
+def test_reduce_heights_by_specific_position():
+    heights = [0, 2, 3, 2, 1]
+
+    new_heights = utils.reduce_heights_by(heights, heights[-1])
 
     assert new_heights == [-1, 1, 2, 1, 0]
-
-
-def test_reduce_heights_by_pos_non_default():
-    heights = [0, 2, 3, 2, 1]
-
-    new_heights = utils.reduce_heights_by_pos(heights, pos=-1)
-
-    assert new_heights == [-2, 0, 1, 0, -1]
 
 
 def test_first_visible_zero_items():
@@ -194,3 +194,62 @@ def test_part_1_sample_input():
     result = solve.part_1(input_data)
 
     assert result == 21
+
+
+def test_find_scenic_score_left_edge():
+    heights = [1, 2, 1, 1, 1]
+    index = 0
+
+    score = utils.get_scenic_score(heights, index)
+
+    assert score == 1
+
+
+def test_find_scenic_score_right_edge():
+    heights = [1, 2, 1, 2, 1]
+    index = 4
+
+    score = utils.get_scenic_score(heights, index)
+
+    assert score == 1
+
+
+def test_find_scenic_score_right_edge():
+    heights = [1, 2, 1, 2, 1]
+    index = 4
+
+    score = utils.get_scenic_score(heights, index)
+
+    assert score == 1
+
+
+def test_find_scenic_score_blocking_trees():
+    heights = [5, 2, 3, 4, 1]
+    index = 2
+
+    score = utils.get_scenic_score(heights, index)
+
+    assert score == 2
+
+
+def test_find_scenic_score_no_blocking_trees():
+    heights = [1, 2, 5, 4, 3]
+    index = 2
+
+    score = utils.get_scenic_score(heights, index)
+
+    assert score == 4
+
+
+def test_part_2_sample_input():
+    input_data = [
+        "30373",
+        "25512",
+        "65332",
+        "33549",
+        "35390",
+    ]
+
+    result = solve.part_2(input_data)
+
+    assert result == 8
