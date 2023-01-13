@@ -214,15 +214,6 @@ def test_find_scenic_score_right_edge():
     assert score == 1
 
 
-def test_find_scenic_score_right_edge():
-    heights = [1, 2, 1, 2, 1]
-    index = 4
-
-    score = utils.get_scenic_score(heights, index)
-
-    assert score == 1
-
-
 def test_find_scenic_score_blocking_trees():
     heights = [5, 2, 3, 4, 1]
     index = 2
