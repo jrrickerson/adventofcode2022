@@ -2,11 +2,26 @@ import utils
 
 
 def get_input_data(filename):
-    pass
+    return [line.strip() for line in open(filename) if line.strip()]
 
 
 def part_1(input_data):
-    pass
+    cycles = utils.expand_program(input_data)
+
+    interesting_cycles = range(20, 221, 40)
+    signal_strengths = []
+
+    x_register = 1
+    prev_cycle = 0
+    for i in interesting_cycles:
+        idx = i - 1
+        x_register += sum([c[1] for c in cycles[prev_cycle:idx]])
+        print(f"Cycle {i}, {cycles[idx]}, X = {x_register}")
+        signal = (i) * x_register
+        signal_strengths.append(signal)
+        prev_cycle = idx
+
+    return sum(signal_strengths)
 
 
 def part_2(input_data):
@@ -27,7 +42,5 @@ def main(input_file):
 
 
 if __name__ == "__main__":
-    print(
-        "Solving Puzzle for Day 10:",
-        "https://adventofcode.com/2022/day/10")
+    print("Solving Puzzle for Day 10:", "https://adventofcode.com/2022/day/10")
     print(main("../puzzles/day-10.input"))
