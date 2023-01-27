@@ -8,8 +8,7 @@ OPERATORS = {
     "*": operator.mul,
 }
 
-Monkey = namedtuple(
-    "Monkey", ["id", "items", "inspect", "test", "test_divisor"])
+Monkey = namedtuple("Monkey", ["id", "items", "inspect", "test", "test_divisor"])
 
 
 def parse_monkey_id(line):
@@ -21,9 +20,9 @@ def parse_monkey_id(line):
 def parse_items(line):
     """Parse a string indicating a monkey's starting items
     into a list of integers.
-    Example: 
+    Example:
         "Starting items: 1, 2, 3"
-    Result: 
+    Result:
         [1, 2, 3]"""
     line = line.strip()
     if not line.startswith("Starting items:"):
@@ -53,10 +52,13 @@ def parse_operation(line):
     new, equal, old, symbol, param = op_string.strip().split()
     oper = OPERATORS[symbol]
     if param == "old":
+
         def op_func(old):
             return oper(old, old)
+
     else:
         const = int(param)
+
         def op_func(old):
             return oper(old, const)
 
@@ -118,28 +120,28 @@ def parse_monkey(lines):
     test, divisor = parse_test(lines)
 
     return Monkey(
-        id=monkey_id, items=items, inspect=operation, test=test,
-        test_divisor=divisor)
+        id=monkey_id, items=items, inspect=operation, test=test, test_divisor=divisor
+    )
 
 
 def take_turn(current_monkey, monkeys, worry_reduce=None):
     if not current_monkey.items:
-        #print(f"Monkey {current_monkey.id} - no items")
+        # print(f"Monkey {current_monkey.id} - no items")
         return 0
 
     if not worry_reduce:
         worry_reduce = lambda w: w // 3
     inspect_count = len(current_monkey.items)
-    #print(f"Monkey {current_monkey.id} - {current_monkey.items}")
+    # print(f"Monkey {current_monkey.id} - {current_monkey.items}")
     while current_monkey.items:
         worry = current_monkey.items.pop(0)
         worry = current_monkey.inspect(worry)
-        #print(f"   after inspect: {worry}")
+        # print(f"   after inspect: {worry}")
         # Reduce worry using the supplied function
         worry = worry_reduce(worry)
-        #print(f"   after bored: {worry}")
+        # print(f"   after bored: {worry}")
         target = current_monkey.test(worry)
-        #print(f"   throw to: {target}")
+        # print(f"   throw to: {target}")
         monkeys[target].items.append(worry)
 
     return inspect_count

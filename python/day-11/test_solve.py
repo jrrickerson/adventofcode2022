@@ -223,7 +223,7 @@ def test_parse_monkey_raises_on_invalid_lines():
 def test_take_turn_no_items():
     monkeys = [
         utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
-        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: w % 8, 8)
+        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: w % 8, 8),
     ]
 
     inspect_count = utils.take_turn(monkeys[0], monkeys)
@@ -234,7 +234,7 @@ def test_take_turn_no_items():
 def test_take_turn_throws_all_items():
     monkeys = [
         utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
-        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0, 1)
+        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0, 1),
     ]
 
     inspect_count = utils.take_turn(monkeys[1], monkeys)
@@ -247,12 +247,11 @@ def test_take_turn_throws_all_items():
 def test_take_turn_worry_modified_correctly():
     monkeys = [
         utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
-        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0, 1)
+        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0, 1),
     ]
 
     expected_values = [(x + 7) // 3 for x in monkeys[1].items]
     inspect_count = utils.take_turn(monkeys[1], monkeys)
-
 
     assert inspect_count == 3
     assert monkeys[0].items == expected_values
@@ -272,7 +271,6 @@ def test_take_turn_throw_to_correct_target():
     for value in expected_values:
         i = value % 2
         assert value in monkeys[i].items
-
 
 
 def test_part_1_sample_input():
@@ -311,7 +309,7 @@ def test_part_1_sample_input():
     assert result == 10605
 
 
-#@pytest.mark.skip(reason="Currently runs too long")
+# @pytest.mark.skip(reason="Currently runs too long")
 def test_part_2_sample_input():
     input_data = [
         "Monkey 0:",
