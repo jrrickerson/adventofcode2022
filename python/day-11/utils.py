@@ -122,19 +122,21 @@ def parse_monkey(lines):
         test_divisor=divisor)
 
 
-def take_turn(current_monkey, monkeys):
+def take_turn(current_monkey, monkeys, worry_reduce=None):
     if not current_monkey.items:
         #print(f"Monkey {current_monkey.id} - no items")
         return 0
 
+    if not worry_reduce:
+        worry_reduce = lambda w: w // 3
     inspect_count = len(current_monkey.items)
     #print(f"Monkey {current_monkey.id} - {current_monkey.items}")
     while current_monkey.items:
         worry = current_monkey.items.pop(0)
         worry = current_monkey.inspect(worry)
         #print(f"   after inspect: {worry}")
-        # Global reduce worry
-        worry = worry // 3
+        # Reduce worry using the supplied function
+        worry = worry_reduce(worry)
         #print(f"   after bored: {worry}")
         target = current_monkey.test(worry)
         #print(f"   throw to: {target}")
