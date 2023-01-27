@@ -39,3 +39,20 @@ def expand_program(command_list):
         cycles += expand_command(command)
 
     return cycles
+
+
+def format_crt_string(crt_values, cols=40):
+    """Given a list of crt pixel values (True or False), create a string
+    representing a 40-pixel wide screen, with "#" indicating a lit pixel
+    and "." indicating an unlit pixel."""
+    chars = []
+    for i, value in enumerate(crt_values, start=1):
+        if value:
+            chars.append("#")
+        else:
+            chars.append(".")
+        if i % cols == 0:
+            chars.append("\n")
+    return ''.join(chars)
+
+
