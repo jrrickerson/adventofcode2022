@@ -9,7 +9,7 @@ OPERATORS = {
 }
 
 Monkey = namedtuple(
-    "Monkey", ["id", "items", "inspect", "test"])
+    "Monkey", ["id", "items", "inspect", "test", "test_divisor"])
 
 
 def parse_monkey_id(line):
@@ -105,7 +105,7 @@ def parse_test(lines):
         else:
             return fail_target
 
-    return test_function
+    return test_function, divisor
 
 
 def parse_monkey(lines):
@@ -115,10 +115,11 @@ def parse_monkey(lines):
     monkey_id = parse_monkey_id(lines.pop(0))
     items = parse_items(lines.pop(0))
     operation = parse_operation(lines.pop(0))
-    test = parse_test(lines)
+    test, divisor = parse_test(lines)
 
     return Monkey(
-        id=monkey_id, items=items, inspect=operation, test=test)
+        id=monkey_id, items=items, inspect=operation, test=test,
+        test_divisor=divisor)
 
 
 def take_turn(current_monkey, monkeys):

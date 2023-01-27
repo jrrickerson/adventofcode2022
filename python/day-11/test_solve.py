@@ -103,9 +103,10 @@ def test_parse_test_return_target_on_pass():
         "  If false: throw to monkey 7",
     ]
 
-    test_func = utils.parse_test(lines)
+    test_func, divisor = utils.parse_test(lines)
 
     assert callable(test_func)
+    assert divisor == 5
     assert test_func(5) == 1
     assert test_func(10) == 1
     assert test_func(25) == 1
@@ -118,9 +119,10 @@ def test_parse_test_return_target_on_fail():
         "  If false: throw to monkey 7",
     ]
 
-    test_func = utils.parse_test(lines)
+    test_func, divisor = utils.parse_test(lines)
 
     assert callable(test_func)
+    assert divisor == 5
     assert test_func(2) == 7
     assert test_func(3) == 7
     assert test_func(29) == 7
@@ -133,7 +135,7 @@ def test_parse_test_raise_on_invalid_lines():
     ]
 
     with pytest.raises(ValueError):
-        test_func = utils.parse_test(lines)
+        test_func, divisor = utils.parse_test(lines)
 
 
 def test_parse_test_raise_on_invalid_test_definition():
@@ -144,7 +146,7 @@ def test_parse_test_raise_on_invalid_test_definition():
     ]
 
     with pytest.raises(ValueError):
-        test_func = utils.parse_test(lines)
+        test_func, divisor = utils.parse_test(lines)
 
 
 def test_parse_test_raise_on_invalid_true_condition():
@@ -155,7 +157,7 @@ def test_parse_test_raise_on_invalid_true_condition():
     ]
 
     with pytest.raises(ValueError):
-        test_func = utils.parse_test(lines)
+        test_func, divisor = utils.parse_test(lines)
 
 
 def test_parse_test_raise_on_invalid_false_condition():
@@ -166,7 +168,7 @@ def test_parse_test_raise_on_invalid_false_condition():
     ]
 
     with pytest.raises(ValueError):
-        test_func = utils.parse_test(lines)
+        test_func, divisor = utils.parse_test(lines)
 
 
 def test_parse_monkey_returns_monkey_type():
@@ -220,8 +222,8 @@ def test_parse_monkey_raises_on_invalid_lines():
 
 def test_take_turn_no_items():
     monkeys = [
-        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2),
-        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: w % 8)
+        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
+        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: w % 8, 8)
     ]
 
     inspect_count = utils.take_turn(monkeys[0], monkeys)
@@ -231,8 +233,8 @@ def test_take_turn_no_items():
 
 def test_take_turn_throws_all_items():
     monkeys = [
-        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2),
-        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0)
+        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
+        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0, 1)
     ]
 
     inspect_count = utils.take_turn(monkeys[1], monkeys)
@@ -244,8 +246,8 @@ def test_take_turn_throws_all_items():
 
 def test_take_turn_worry_modified_correctly():
     monkeys = [
-        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2),
-        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0)
+        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
+        utils.Monkey(1, [1, 2, 3], lambda w: w + 7, lambda w: 0, 1)
     ]
 
     expected_values = [(x + 7) // 3 for x in monkeys[1].items]
@@ -258,9 +260,9 @@ def test_take_turn_worry_modified_correctly():
 
 def test_take_turn_throw_to_correct_target():
     monkeys = [
-        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2),
-        utils.Monkey(1, [], lambda w: w + 7, lambda w: w % 2),
-        utils.Monkey(2, [7, 8, 12, 46], lambda w: w + 7, lambda w: w % 2),
+        utils.Monkey(0, [], lambda w: w + 1, lambda w: w % 2, 2),
+        utils.Monkey(1, [], lambda w: w + 7, lambda w: w % 2, 2),
+        utils.Monkey(2, [7, 8, 12, 46], lambda w: w + 7, lambda w: w % 2, 2),
     ]
 
     expected_values = [(x + 7) // 3 for x in monkeys[2].items]
