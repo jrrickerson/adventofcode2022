@@ -6,7 +6,26 @@ def get_input_data(filename):
 
 
 def part_1(input_data):
-    pass
+    grid = utils.generate_grid_map(input_data)
+    start = utils.find_marker_point(grid, marker="S")
+    end = utils.find_marker_point(grid, marker="E")
+
+    # Swap the markers to their actual values
+    grid[start[1]][start[0]] = 0
+    grid[end[1]][end[0]] = ord("z") - utils.GRID_CELL_OFFSET
+
+    def heuristic(cell):
+        return utils.manhattan_dist(cell, end)
+
+    def neighbors(cell):
+        return utils.find_heightmap_neighbors(cell, grid)
+
+    path_nodes, endpoint = utils.A_star(
+        start, end, h_func=heuristic, neighbors=neighbors
+    )
+    path = utils.construct_path(path_nodes, endpoint)
+
+    return len(path) - 1
 
 
 def part_2(input_data):
@@ -27,7 +46,5 @@ def main(input_file):
 
 
 if __name__ == "__main__":
-    print(
-        "Solving Puzzle for Day 12:",
-        "https://adventofcode.com/2022/day/12")
+    print("Solving Puzzle for Day 12:", "https://adventofcode.com/2022/day/12")
     print(main("../puzzles/day-12.input"))
