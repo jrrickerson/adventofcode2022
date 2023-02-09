@@ -1,3 +1,5 @@
+import copy
+
 import solve
 import utils
 
@@ -34,6 +36,36 @@ def test_generate_grid_map_multiple_row():
     for y, line in enumerate(grid_map):
         for x, cell in enumerate(line):
             assert cell == ord(input_lines[y][x]) - utils.GRID_CELL_OFFSET
+
+
+def test_normalize_heightmap_empty_map():
+    grid = [
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "aaabbbccc"],
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "abaaabccc"],
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "abababcdd"],
+    ]
+
+    original_grid = copy.deepcopy(grid)
+
+    utils.normalize_heightmap(grid, {})
+
+    assert grid == original_grid
+
+
+def test_normalize_heightmap_replaces_positions():
+    grid = [
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "aaabbbccE"],
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "aSaaabccc"],
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "abababcdd"],
+    ]
+    original_grid = copy.deepcopy(grid)
+
+    start = (1, 1)
+    end = (8, 0)
+    utils.normalize_heightmap(grid, {start: "a", end: "z"})
+
+    assert grid[start[1]][start[0]] == ord("a") - utils.GRID_CELL_OFFSET
+    assert grid[end[1]][end[0]] == ord("z") - utils.GRID_CELL_OFFSET
 
 
 def test_find_marker_point_does_not_exist():
@@ -371,8 +403,6 @@ def test_A_star_handle_no_path():
         for cell in neighbors:
             if cell[0] < 0 or cell[1] < 0:
                 exclude.append(cell)
-            if cell[0] > 5 or cell[1] > 5:
-                exclude.append(cell)
             if cell[0] == 3 or cell[1] == 3:
                 exclude.append(cell)
         for cell in exclude:
@@ -388,6 +418,20 @@ def test_A_star_handle_no_path():
     assert len(path) == 0
 
 
+def test_find_shortest_path_calls_A_star():
+    grid = [
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "aaabbbccd"],
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "aaaaabccc"],
+        [ord(c) - utils.GRID_CELL_OFFSET for c in "abababcdd"],
+    ]
+    start = (1, 1)
+    end = (8, 0)
+
+    path = utils.find_shortest_path(grid, start, end)
+
+    assert len(path) == 9
+
+
 def test_part_1_sample_input():
     input_data = [
         "Sabqponm",
@@ -400,3 +444,17 @@ def test_part_1_sample_input():
     result = solve.part_1(input_data)
 
     assert result == 31
+
+
+def test_part_2_sample_input():
+    input_data = [
+        "Sabqponm",
+        "abcryxxl",
+        "accszExk",
+        "acctuvwj",
+        "abdefghi",
+    ]
+
+    result = solve.part_2(input_data)
+
+    assert result == 29

@@ -1,7 +1,7 @@
 import utils
 
 
-def get_input_data(filename):
+def get_input_data(filename):  # pragma: no cover
     return [line.strip() for line in open(filename)]
 
 
@@ -10,29 +10,30 @@ def part_1(input_data):
     start = utils.find_marker_point(grid, marker="S")
     end = utils.find_marker_point(grid, marker="E")
 
-    # Swap the markers to their actual values
-    grid[start[1]][start[0]] = 0
-    grid[end[1]][end[0]] = ord("z") - utils.GRID_CELL_OFFSET
+    utils.normalize_heightmap(grid, {start: "a", end: "z"})
 
-    def heuristic(cell):
-        return utils.manhattan_dist(cell, end)
-
-    def neighbors(cell):
-        return utils.find_heightmap_neighbors(cell, grid)
-
-    path_nodes, endpoint = utils.A_star(
-        start, end, h_func=heuristic, neighbors=neighbors
-    )
-    path = utils.construct_path(path_nodes, endpoint)
+    path = utils.find_shortest_path(grid, start, end)
 
     return len(path) - 1
 
 
 def part_2(input_data):
-    pass
+    # Find the grid start and end points
+    # Use the end point and do a breadth first search until
+    # we find a cell that matches the required height.
+    grid = utils.generate_grid_map(input_data)
+    start = utils.find_marker_point(grid, marker="S")
+    end = utils.find_marker_point(grid, marker="E")
+
+    utils.normalize_heightmap(grid, {start: "a", end: "z"})
+
+    path = utils.find_nearest_start_level(
+        end, grid, start_level=grid[start[1]][start[0]]
+    )
+    return len(path) - 1
 
 
-def main(input_file):
+def main(input_file):  # pragma: no cover
     input_data = get_input_data(input_file)
 
     part_1_result = part_1(input_data)
@@ -45,6 +46,6 @@ def main(input_file):
     return solution
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     print("Solving Puzzle for Day 12:", "https://adventofcode.com/2022/day/12")
     print(main("../puzzles/day-12.input"))
