@@ -2,16 +2,16 @@ import utils
 
 
 def get_input_data(filename):  # pragma: no cover
-    return [line.strip() for line in open(filename)]
+    return [line.strip() for line in open(filename) if line.strip()]
 
 
 def part_1(input_data):
     ordered_pairs = []
-    for i in range(0, len(input_data), 3):
+    for i in range(0, len(input_data), 2):
         left = utils.parse_packet(input_data[i].strip())
         right = utils.parse_packet(input_data[i + 1].strip())
         if -1 == utils.compare(left, right):
-            ordered_pairs.append((i // 3) + 1)
+            ordered_pairs.append((i // 2) + 1)
 
     return sum(ordered_pairs)
 
