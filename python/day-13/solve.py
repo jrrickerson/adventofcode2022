@@ -1,3 +1,4 @@
+from functools import cmp_to_key
 import utils
 
 
@@ -17,7 +18,17 @@ def part_1(input_data):
 
 
 def part_2(input_data):
-    pass
+    DIVIDER_PACKETS = [[[2]], [[6]]]
+    packets = [utils.parse_packet(line) for line in input_data]
+
+    packets = DIVIDER_PACKETS + packets
+    packets.sort(key=cmp_to_key(utils.compare))
+
+    divider_idx1 = packets.index(DIVIDER_PACKETS[0]) + 1
+    divider_idx2 = packets.index(DIVIDER_PACKETS[1]) + 1
+
+    decoder_key = divider_idx1 * divider_idx2
+    return decoder_key
 
 
 def main(input_file):  # pragma: no cover

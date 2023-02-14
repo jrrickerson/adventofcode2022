@@ -2,6 +2,9 @@ import json
 
 
 def parse_packet(line):
+    """Parse a string representing a data packet into a native list.
+    NOTE: All described forms of packet happen to adhere to the JSON
+    standard, so just use the default JSON parser"""
     try:
         return json.loads(line)
     except:
